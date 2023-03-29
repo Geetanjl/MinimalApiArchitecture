@@ -51,7 +51,7 @@ stages:
       displayName: Install Node.js
       inputs:
         versionSource: 'spec'
-        versionSpec: '18.x'
+        versionSpec: '16.x'
     - task: Npm@1
       displayName: Npm Install
       inputs:

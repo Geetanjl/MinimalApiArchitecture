@@ -42,7 +42,8 @@ stages:
         downloadType: 'single'
         artifactName: 'Backend'
         downloadPath: '$(System.ArtifactsDirectory)'
-
+- stage: Build Frontend
+  jobs:
   - job: build_frontend
     pool:
       vmImage: ubuntu-latest
@@ -56,12 +57,12 @@ stages:
       displayName: Npm Install
       inputs:
         command: 'install'
-        workingDir: 'src/Angular/ClientApp'
+        workingDir: 'src\Angular\ClientApp'
     - task: Npm@1
-      displayName: Npm Runand Build
+      displayName: Npm Run and Build
       inputs:
         command: 'custom'
-        workingDir: 'src/Angular/ClientApp'
+        workingDir: 'src\Angular\ClientApp'
         customCommand: 'run build'
     - task: PublishBuildArtifacts@1
       displayName: Publish Frontend Artifact

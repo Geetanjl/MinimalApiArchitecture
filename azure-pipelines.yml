@@ -21,14 +21,14 @@ stages:
       displayName: Dotnet Restore
       inputs:
         command: 'restore'
-        projects: '**/*.csproj'
+        projects: '**/*.sln'
         feedsToUse: 'select'
 
     - task: DotNetCoreCLI@2
       displayName: Dotnet Build
       inputs:
         command: 'build'
-        projects: '**/*.csproj'
+        projects: '**/*.sln'
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact
       inputs:
@@ -51,7 +51,7 @@ stages:
       displayName: Install Node.js
       inputs:
         versionSource: 'spec'
-        versionSpec: '14.x'
+        versionSpec: '8.9.x'
     - task: Npm@1
       displayName: Npm Install
       inputs:

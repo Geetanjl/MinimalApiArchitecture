@@ -42,7 +42,7 @@ stages:
         downloadType: 'single'
         artifactName: 'Backend'
         downloadPath: '$(System.ArtifactsDirectory)'
-- stage: Build Frontend
+- stage: 
   jobs:
   - job: build_frontend
     pool:

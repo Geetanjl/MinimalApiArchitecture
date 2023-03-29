@@ -1,0 +1,78 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+stages:
+- stage: Build
+  jobs:
+  - job: build_backend
+    pool:
+      vmImage: windows-latest
+    steps:
+    - task: UseDotNet@2
+      displayName: Install sdk
+      inputs:
+        packageType: 'sdk'
+        version: '6.x'
+    - task: DotNetCoreCLI@2
+      displayName: Dotnet Restore
+      inputs:
+        command: 'restore'
+        projects: 'MinimalApiArchitecture.sln'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: Dotnet Build
+      inputs:
+        command: 'build'
+        projects: 'MinimalApiArchitecture.sln'
+    - task: PublishBuildArtifacts@1
+      displayName: Publish Artifact
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)'
+        ArtifactName: 'Backend'
+        publishLocation: 'Container'
+    - task: DownloadBuildArtifacts@1
+      displayName: Download Artifact
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'Backend'
+        downloadPath: '$(System.ArtifactsDirectory)'
+
+  - job: build_frontend
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: NodeTool@0
+      displayName: Install Node.js
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '14.x'
+    - task: Npm@1
+      displayName: Npm Install
+      inputs:
+        command: 'install'
+        workingDir: 'src/Angular/ClientApp'
+    - task: Npm@1
+      displayName: Npm Runand Build
+      inputs:
+        command: 'custom'
+        workingDir: 'src/Angular/ClientApp'
+        customCommand: 'run build'
+    - task: PublishBuildArtifacts@1
+      displayName: Publish Frontend Artifact
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)/src/Angular/ClientApp/dist'
+        ArtifactName: 'Frontend'
+        publishLocation: 'Container'
+    - task: DownloadBuildArtifacts@1
+      displayName: Download Frontend Artifact
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'Frontend'
+        downloadPath: '$(System.ArtifactsDirectory)'

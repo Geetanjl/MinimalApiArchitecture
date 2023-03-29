@@ -16,13 +16,7 @@ stages:
       displayName: Install sdk
       inputs:
         packageType: 'sdk'
-        version: 
-    - task: NuGetCommand@2
-      displayName: Install Nuget
-      inputs:
-        command: 'restore'
-        restoreSolution: '**/*.csproj'
-        feedsToUse: 'select'
+        version: 7.x
     - task: DotNetCoreCLI@2
       displayName: Dotnet Restore
       inputs:
@@ -57,7 +51,7 @@ stages:
       displayName: Install Node.js
       inputs:
         versionSource: 'spec'
-        versionSpec: '12.20.20'
+        versionSpec: '18.x'
     - task: Npm@1
       displayName: Npm Install
       inputs:

@@ -21,14 +21,14 @@ stages:
       displayName: Dotnet Restore
       inputs:
         command: 'restore'
-        projects: 'MinimalApiArchitecture.sln'
+        projects: '**/*.csproj'
         feedsToUse: 'select'
 
     - task: DotNetCoreCLI@2
       displayName: Dotnet Build
       inputs:
         command: 'build'
-        projects: 'MinimalApiArchitecture.sln'
+        projects: '**/*.csproj'
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact
       inputs:
